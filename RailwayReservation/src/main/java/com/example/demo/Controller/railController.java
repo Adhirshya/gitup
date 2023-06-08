@@ -40,7 +40,7 @@ public class railController
     }
 
     
-    @PutMapping("updateRail")
+    @PutMapping("/updateRail")
     public railModel updateDetails(@RequestBody railModel trainid)
     {
     	return rs.updateInfo(trainid);

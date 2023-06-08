@@ -12,7 +12,7 @@ public class canController
 {
 	@Autowired
 	public canService cs;
-	@PostMapping("/ct")
+	@PostMapping
 	public canModel addDetails(@RequestBody canModel obj3)
 	{
 		return cs.saveInfo(obj3);
