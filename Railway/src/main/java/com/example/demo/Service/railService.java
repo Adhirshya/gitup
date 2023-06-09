@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.Model.railModel;
@@ -13,6 +16,7 @@ import com.example.demo.Repository.railRepository;
 
 public class railService 
 {
+	//put by id
 	private final railRepository railRepository;
 	@Autowired
     public railService(railRepository railRepository) {
@@ -65,5 +69,16 @@ public class railService
     	obj.deleteById(trainid);
     }
     
+  //sorting
+  	public List<railModel> sortDesc(String name)
+  	{
+  		return obj.findAll(Sort.by(name).descending());
+  	}
+  	//pagination
+  	public List<railModel> paginationData(int pageNum,int pagesize)
+  	{
+  		Page<railModel>p =obj.findAll(PageRequest.of(pageNum, pagesize));
+  		return p.getContent();
+  	}
 	
 }

@@ -15,7 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Model.railModel;
 
+import com.example.demo.Repository.railRepository;
 import com.example.demo.Service.railService;
+
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 
 
@@ -73,6 +76,74 @@ public class railController
         return rs.getById(trainid);
         
     }
+    
+    //sorting
+    @GetMapping("/sortData/{pna}")
+    public List<railModel> sortVote(@PathVariable("pna") String pvote)
+    {
+    	return rs.sortDesc(pvote);
+    }
+
+  //pagination
+  @GetMapping("/pagination/{pnu}/{psize}")
+  public List<railModel>paginationData(@PathVariable("pnu") int pnu,@PathVariable("psize")int psize)
+  {
+  	return rs.paginationData(pnu, psize);
+  }
+  
+  @Autowired
+  public railRepository cr;
+
+  @Tag( name="Native query",description="Getting details")
+  @GetMapping("saveStudent")
+  public List<railModel> getD()
+  {
+  	return cr.getAllData();
+  }
+  
+
+  @Tag( name="Native query",description="Getting details by id")
+  @GetMapping("byName/{id}")
+  public List<railModel> getName(@PathVariable ("id") int pid )
+  {
+  	return cr.byid(pid);
+  }
+
+  @Tag( name="Native query",description="Getting details by start end method")
+  @GetMapping("startend/{start}/{end}")
+  public List<railModel> getStart(@PathVariable ("start")int start,@PathVariable ("end")int end)
+  {
+  	return cr.startEnd(start, end);
+  }
+
+  @Tag( name="Native query",description="Deleting details by id and name")
+  @DeleteMapping("/del/{id}/{name}")
+  public String delD(@PathVariable ("id") int id,@PathVariable ("name")String name)
+  {
+  	cr.deleteD(id, name);
+  	return "deleted";
+  }
+
+  @Tag( name="Native query",description="Posting details")
+  @PutMapping("updatee/{pid}/{pname}")
+  public void updateQue(@PathVariable("pid")int pid,@PathVariable("pname") String pname)
+  {
+  	cr.updateByQuery(pid, pname);
+  }
+
+  @Tag( name="JPQL",description="Getting details by methods")
+  @GetMapping("jp")
+  public List<railModel> jplQuery()
+  {
+  	return cr.jpqlQ();
+  }
+
+  @Tag( name="JPQL",description="Getting details by id")
+  @GetMapping("/upp/{id}")
+  public List<railModel> jpqUp(@PathVariable ("id") int id)
+  {
+  	return cr.jqByCon(id);
+  }
     
     
 }
