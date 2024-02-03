@@ -13,10 +13,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.demo.Model.railModel;
-
-import com.example.demo.Repository.railRepository;
-import com.example.demo.Service.railService;
+import com.example.demo.Model.IceModel;
+import com.example.demo.Repository.IceRepo;
+import com.example.demo.Service.IceService;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
@@ -25,78 +24,78 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @CrossOrigin("http://localhost:3000")
 
-public class railController
+public class IceController
 {
-	private final railService railService;
+	private final IceService IceService;
 
     @Autowired
-    public railController(railService railService) {
-        this.railService = railService;
+    public IceController(IceService IceService) {
+        this.IceService = IceService;
     }
 
     @PutMapping("/put/{id}")
-    public Optional<railModel> updateById(@PathVariable("id") Long id, @RequestBody railModel updatedModel) 
+    public Optional<IceModel> updateById(@PathVariable("id") Long id, @RequestBody IceModel updatedModel) 
     {
-        return railService.updateById(id, updatedModel);
+        return IceService.updateById(id, updatedModel);
     }
 	
 	@Autowired
-	public railService rs;
+	public IceService rs;
 	
 	@PostMapping("/post")
-	public railModel addDetails(@RequestBody railModel obj3)
+	public IceModel addDetails(@RequestBody IceModel obj3)
 	{
 		return rs.saveInfo(obj3);
 	}
 	
     @GetMapping("/get")
-    public List <railModel> getDetails()
+    public List <IceModel> getDetails()
     {
     	return rs.getInfo();
     }
 
     
    @PutMapping("/put")
-    public railModel updateDetails(@RequestBody railModel trainid)
+    public IceModel updateDetails(@RequestBody IceModel trainid)
     {
     	return rs.updateInfo(trainid);
     }
     
    @DeleteMapping("/delete/{rid}")
-    public String deleteDetails(@PathVariable ("rid") Long trainid)
+    public String deleteDetails(@PathVariable ("rid") Long id)
     {
-    	rs.deleteInfo(trainid);
-    	return "Train Id "+trainid+" is deleted";
-    }                                                                                                         
+    	rs.deleteInfo(id);
+    	return "Id "+id+" is deleted";
+    }
     
     
     @GetMapping("/get/{id}")
-    public Optional<railModel> getById(@PathVariable("id") Long trainid)
+    public Optional<IceModel> getById(@PathVariable("id") Long id)
     {
-        return rs.getById(trainid);
+        return rs.getById(id);
         
     }
     
     //sorting
     @GetMapping("/sortData/{pna}")
-    public List<railModel> sortVote(@PathVariable("pna") String pvote)
+    public List<IceModel> sortVote(@PathVariable("pna") String pvote)
     {
     	return rs.sortDesc(pvote);
     }
 
   //pagination
   @GetMapping("/pagination/{pnu}/{psize}")
-  public List<railModel>paginationData(@PathVariable("pnu") int pnu,@PathVariable("psize")int psize)
+  public List<IceModel>paginationData(@PathVariable("pnu") int pnu,@PathVariable("psize")int psize)
   {
   	return rs.paginationData(pnu, psize);
   }
   
   @Autowired
-  public railRepository cr;
+  public IceRepo cr;
 
   @Tag( name="Native query",description="Getting details")
   @GetMapping("saveStudent")
-  public List<railModel> getD()
+  public List<IceModel> getD()
   {
   	return cr.getAllData();
   }
@@ -104,14 +103,14 @@ public class railController
 
   @Tag( name="Native query",description="Getting details by id")
   @GetMapping("byName/{id}")
-  public List<railModel> getName(@PathVariable ("id") int pid )
+  public List<IceModel> getName(@PathVariable ("id") int pid )
   {
   	return cr.byid(pid);
   }
 
   @Tag( name="Native query",description="Getting details by start end method")
   @GetMapping("startend/{start}/{end}")
-  public List<railModel> getStart(@PathVariable ("start")int start,@PathVariable ("end")int end)
+  public List<IceModel> getStart(@PathVariable ("start")int start,@PathVariable ("end")int end)
   {
   	return cr.startEnd(start, end);
   }
@@ -133,14 +132,14 @@ public class railController
 
   @Tag( name="JPQL",description="Getting details by methods")
   @GetMapping("jp")
-  public List<railModel> jplQuery()
+  public List<IceModel> jplQuery()
   {
   	return cr.jpqlQ();
   }
 
   @Tag( name="JPQL",description="Getting details by id")
   @GetMapping("/upp/{id}")
-  public List<railModel> jpqUp(@PathVariable ("id") int id)
+  public List<IceModel> jpqUp(@PathVariable ("id") int id)
   {
   	return cr.jqByCon(id);
   }
